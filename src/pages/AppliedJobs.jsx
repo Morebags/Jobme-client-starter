@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import { jobs } from "../data/jobs";
 import UpdateStatusModal from "../components/UpdateStatusModal";
-import Paginate from "../components/Paginate";
 import Loader from "../components/Loader";
 import axios from "axios";
 import Empty from "../components/Empty";
@@ -40,10 +38,7 @@ const AppliedJobs = () => {
     getUsersJobs();
   }, [showModal]);
 
-  // const handleIdUpdate = (id) => {
-  //   setShowModal(true);
-  //   setUpdateId(id);
-  // };
+
   return (
     <div>
       <Layout>
@@ -116,13 +111,6 @@ const AppliedJobs = () => {
               })}
           </div>
         </section>
-        {/* <div className="container">
-          <Paginate
-            currentPage={1}
-            // setCurrentPage={setCurrentPage}
-            numOfPages={3}
-          />
-        </div> */}
       </Layout>
     </div>
   );
