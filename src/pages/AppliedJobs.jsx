@@ -86,7 +86,7 @@ const AppliedJobs = () => {
                     <div className="d-flex mt-3 mt-md-0 gap-2 justify-content-md-end align-items-center col-md-6">
                       <p>
                         <button
-                          onClick={() => handleIdUpdate(_id)}
+                          onClick={() => {setShowModal(true); setUpdateId(_id)}}
                           className="btn border border-1 border-tertiary rounded-4 bg-transparent text-info fs-5 px-3"
                         >
                           Update Status
