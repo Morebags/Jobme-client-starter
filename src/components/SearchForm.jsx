@@ -1,38 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { jobType, mode, industry } from "../data/jobs";
+import { jobType, mode, industry, } from "../data/jobs";
 import { useGlobalContext } from "../hooks/useGlobalContext";
 import axios from "axios";
 
 const SearchForm = () => {
-  const {updateJobType,updateMode, updateIndustry, updateLocation} = useGlobalContext();
-  const [jType, setJType] = useState("");
-  const [m, setM] = useState("");
-  const [i, setI]= useState("");
-  const [l, setL] = useState("")
-  const [locations, setLocations] = useState([])
+  const {updateJobType, updateIndustry, updateMode, updateLocations} = useGlobalContext();
+  const [jType, setJType] = useState('');
+  const [mType, setMType] = useState('');
+  const [iType, setIType] = useState('');
+  const [locationType, setLocationType] = useState('');
+
+
+  const [locations, setLocations] = useState([]);
+  const [industries, setIndustries] = useState([]);
   const path = useLocation().pathname;
   const handleSelection = (e) => {
     e.preventDefault();
     updateJobType(jType);
-    updateMode(m)
-    updateIndustry(i)
-    updateLocation(l)
-    //reset input
-    setJType("");
-    setM("")
-    setI("")
-    setL("")
+    updateMode(mType);
+    updateIndustry(iType);
+    updateLocations(locationType);
+
+    //RESET INPUT
+    setJType('');
+    setMType('');
+    setIType('');
+    setLocations('');
   };
 
   useEffect(() => {
-    const getLocations =async () => {
-      const { data } = await axios("https://job-me-server.onrender.com/api/v1/jobs/locations");
-      setLocations(data.location)
-    };
-    getLocations();
-  }, []);
+    const getLocations = async () => {
+      const { data } = await axios(
+        "https://job-me-server-pelumi.onrender.com/api/v1/jobs/locations"
 
+      );
+      setLocations(data.location);
+      setIndustries(data.industries);
+    }
+     getLocations();
+  }, [])
   return (
     <div className="searchform p-3">
       <form onSubmit={handleSelection} className="container ">
@@ -58,11 +65,11 @@ const SearchForm = () => {
             name=""
             id="industry"
             className="form-select py-2 px-xl-4 rounded-2 fs-5 text-capitalize"
-            value={i}
-            onChange={(e) => setI(e.target.value)}
+            value={iType}
+            onChange={(e) => setIType(e.target.value)}
           >
-            <option >Select Industry</option>
-            {industry.map((type, i) => {
+            <option value="">Select Industry</option>
+            { industries && industries.map((type, i) => {
               return (
                 <option key={i} value={type}>
                   {" "}
@@ -75,8 +82,8 @@ const SearchForm = () => {
             name=""
             id="mode"
             className="form-select py-2 px-xl-4 rounded-2 fs-5 text-capitalize"
-            value={m}
-            onChange={(e) => setM(e.target.value)}
+            value={mType}
+            onChange={(e) => setMType(e.target.value)}
           >
             <option value="">Select Mode of Work</option>
             {mode.map((m, i) => {
@@ -91,13 +98,12 @@ const SearchForm = () => {
             name=""
             id="location"
             className="form-select py-2 px-xl-4 rounded-2 fs-5"
-            value={l}
-            onChange={(e) => setL(e.target.value)}
-
+            value={locationType}
+            onChange={(e) => setLocationType(e.target.value)}
           >
             <option value="">Select Location</option>
-            {locations && locations.map((l, index) => {
-              return <option key={index} value={l}> {l} </option>  
+            {locations && locations.map((loc, index) => {
+              return <option key={index} value={loc}>{loc}</option>
             })}
           </select>
           <div className="d-xl-flex align-items-center justify-content-center">
